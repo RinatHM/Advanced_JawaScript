@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Создание объекта "Музыкальная коллекция"
+const musicCollection = {
+    albums: [
+        { title: "The Dark Side of the Moon", artist: "Pink Floyd", year: "1973" },
+        { title: "Back in Black", artist: "AC/DC", year: "1980" },
+        { title: "Thriller", artist: "Michael Jackson", year: "1982" },
+        { title: "The Joshua Tree", artist: "U2", year: "1987" },
+        { title: "Abbey Road", artist: "The Beatles", year: "1969" }
+    ],
+    
+    // Реализация метода Symbol.iterator
+    [Symbol.iterator]: function() {
+        let index = 0; // Начальный индекс итерации
+        const albums = this.albums; // Ссылка на массив альбомов
+        
+        // Возвращаем объект итератора
+        return {
+            next: function() {
+                // Проверяем, остались ли альбомы для итерации
+                if (index < albums.length) {
+                    // Возвращаем альбом по порядку
+                    return { value: albums[index++], done: false };
+                } else {
+                    // Завершаем итерацию
+                    return { done: true };
+                }
+            }
+        };
+    }
+};
+
+// Перебор альбомов в музыкальной коллекции и вывод на консоль
+for (const album of musicCollection) {
+    console.log(`${album.title} - ${album.artist} (${album.year})`);
+}
+    </script>
+</body>
+</html>

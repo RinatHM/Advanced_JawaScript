@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       // Создаем карту для хранения поваров и их специализаций
+const chefs = new Map();
+chefs.set('Виктор', 'Пицца');
+chefs.set('Ольга', 'Суши');
+chefs.set('Дмитрий', 'Десерты');
+
+// Создаем карту для хранения блюд и их поваров
+const dishes = new Map();
+dishes.set('Пицца "Маргарита"', 'Виктор');
+dishes.set('Пицца "Пепперони"', 'Виктор');
+dishes.set('Суши "Филадельфия"', 'Ольга');
+dishes.set('Суши "Калифорния"', 'Ольга');
+dishes.set('Тирамису', 'Дмитрий');
+dishes.set('Чизкейк', 'Дмитрий');
+
+// Создаем карту для хранения заказов клиентов
+const orders = new Map();
+
+// Функция для добавления заказа клиента
+function addOrder(client, orderList) {
+    orders.set(client, orderList);
+}
+
+// Определяем клиентов и их заказы
+const clientAlexey = { name: 'Алексей' };
+const clientMaria = { name: 'Мария' };
+const clientIrina = { name: 'Ирина' };
+
+// Записываем заказы
+addOrder(clientAlexey, ['Пицца "Пепперони"', 'Тирамису']);
+addOrder(clientMaria, ['Суши "Калифорния"', 'Пицца "Маргарита"']);
+addOrder(clientIrina, ['Чизкейк']);
+
+// Функция для отображения заказов
+function displayOrders() {
+    for (const [client, orderList] of orders) {
+        const orderDetails = orderList.map(dish => {
+            const chef = dishes.get(dish);
+            return `${dish} (готовит: ${chef})`;
+        }).join(', ');
+        console.log(`${client.name} заказал: ${orderDetails}`);
+    }
+}
+
+// Выводим заказы клиентов с указанием повара
+displayOrders();
+    </script>
+</body>
+</html>
