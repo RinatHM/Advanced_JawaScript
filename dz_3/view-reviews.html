@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр отзывов</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .product { margin-bottom: 20px; }
+        button { margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Отзывы о продуктах</h1>
+    <div id="reviews-list"></div>
+    <a href="add-review.html">Добавить отзыв</a>
+
+    <script>
+        function renderReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+            const reviewsList = document.getElementById('reviews-list');
+            reviewsList.innerHTML = '';
+
+            for (const product in reviews) {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `<h3>${product}</h3>`;
+
+                reviews[product].forEach((review, index) => {
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.innerHTML = `<p>${review} <button onclick="deleteReview('${product}', ${index})">Удалить</button></p>`;
+                    productDiv.appendChild(reviewDiv);
+                });
+
+                reviewsList.appendChild(productDiv);
+            }
+        }
+
+        function deleteReview(product, index) {
+            const reviews = JSON.parse(localStorage.getItem('reviews'));
+            if (reviews && reviews[product]) {
+                reviews[product].splice(index, 1);
+                if (reviews[product].length === 0) {
+                    delete reviews[product];
+                }
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                renderReviews();
+            }
+        }
+
+        window.onload = renderReviews;
+    </script>
+</body>
+</html>

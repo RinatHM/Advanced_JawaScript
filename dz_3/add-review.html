@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить отзыв</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+        button { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Добавить отзыв о продукте</h1>
+    <input type="text" id="product-name" placeholder="Название продукта" required />
+    <textarea id="review-text" placeholder="Ваш отзыв" required></textarea>
+    <button id="add-review-button">Добавить отзыв</button>
+    <p id="message"></p>
+    <a href="view-reviews.html">Перейти к отзывам</a>
+
+    <script>
+        document.getElementById('add-review-button').onclick = function() {
+            const productName = document.getElementById('product-name').value;
+            const reviewText = document.getElementById('review-text').value;
+
+            if (productName && reviewText) {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+                if (!(productName in reviews)) {
+                    reviews[productName] = [];
+                }
+                reviews[productName].push(reviewText);
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                
+                document.getElementById('message').innerText = 'Отзыв добавлен!';
+                document.getElementById('product-name').value = '';
+                document.getElementById('review-text').value = '';
+            } else {
+                document.getElementById('message').innerText = 'Пожалуйста, заполните все поля.';
+            }
+        };
+    </script>
+</body>
+</html>
